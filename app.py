@@ -166,7 +166,7 @@ elif opcion == "Ejercicio 4":
     st.title("Ejercicio 4: Uso de Clases (CRUD)")
     st.markdown("Gestión de Equipos de Mantenimiento utilizando Programación Orientada a Objetos.")
     
-    tab1, tab2, tab3, tab4 = st.tabs(["Crear (C)", "Leer (R)", "Actualizar (U)", "Eliminar (D)"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Create (C)", "Read (R)", "Update (U)", "Delete (D)"])
     
     with tab1:
         st.subheader("Registrar Nuevo Equipo")
