@@ -34,15 +34,15 @@ if opcion == "Home":
         st.markdown("""
         **Información General**
         * **Estudiante:** Angie Tatiana Recuenco Tapia
-        * **Perfil:** Bachiller en Ingeniería Mecatrónica
+        * **Perfil:** Bachiller en Ingeniería Mecatrónica - Becaria en Ferreyros S.A.
         * **Año:** 2026
         
         **Descripción del Proyecto**
         
         Esta aplicación interactiva corresponde al proyecto final del módulo 1 del curso, en donde se demuestra 
-        la integración de conceptos fundamentales de Python, incluyendo estructuras de datos, control de flujo, 
+        la integración de conceptos fundamentales de Python, incluyendo estructuras de datos, widgets, control de flujo, 
         funciones y programación orientada a objetos (POO), mediante una interfaz construida íntegramente con 
-        Streamlit, una platafoma que permite correr aplicaciones web enlazadas aun repositorio en GitHub.
+        Streamlit, una platafoma que permite correr aplicaciones web enlazadas a un repositorio en GitHub.
         
         **Tecnologías Utilizadas**
         * Python 3
@@ -99,25 +99,27 @@ elif opcion == "Ejercicio 2":
     col1, col2 = st.columns(2)
     with col1:
         producto = st.text_input("Nombre del Suministro")
-        codigo = st.text_input("Código SAP / Interno")
+        # Cambiado: Ahora es un selectbox para Categoría
+        categoria = st.selectbox("Categoría", ["Suministro", "EPP"])
     with col2:
         precio = st.number_input("Precio Unitario", min_value=0.0, step=0.5)
         cantidad = st.number_input("Cantidad Solicitada", min_value=1, step=1)
     
     if st.button("Agregar a la Lista de Pedido"):
-        if producto and codigo:
+        if producto:  # Ya no verificamos el código, el selectbox siempre tiene un valor por defecto
             total = precio * cantidad
             # Uso de NumPy array según rúbrica
-            nuevo_registro = np.array([codigo, producto, precio, cantidad, total])
+            nuevo_registro = np.array([categoria, producto, precio, cantidad, total])
             st.session_state.inventario.append(nuevo_registro)
-            st.success("Suministro registrado exitosamente.")
+            st.success("Registro añadido exitosamente.")
         else:
-            st.warning("Por favor ingrese el nombre del producto y su código.")
+            st.warning("Por favor ingrese el nombre del producto.")
             
     if st.session_state.inventario:
+        # Cambiado: La primera columna ahora se llama 'Categoría' en vez de 'Código'
         df_inv = pd.DataFrame(st.session_state.inventario, 
-                              columns=["Código", "Suministro", "Precio Unitario", "Cantidad", "Total"])
-        st.write("### Consolidado de Suministros")
+                              columns=["Categoría", "Suministro", "Precio Unitario", "Cantidad", "Total"])
+        st.write("### Consolidado de Pedidos")
         st.dataframe(df_inv, use_container_width=True)
 
 # --- SECCIÓN: EJERCICIO 3 ---
