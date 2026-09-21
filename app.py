@@ -38,9 +38,10 @@ if opcion == "Home":
         * **Año:** 2026
         
         **Descripción del Proyecto**
-        Esta aplicación interactiva es el primer proyecto aplicado del curso. Demuestra la integración 
-        de conceptos fundamentales de Python, incluyendo estructuras de datos, control de flujo, funciones 
-        y programación orientada a objetos (POO), mediante una interfaz construida íntegramente con Streamlit.
+        Esta aplicación interactiva corresponde al proyecto final del módulo 1 del curso, en donde se demuestra 
+        la integración de conceptos fundamentales de Python, incluyendo estructuras de datos, control de flujo, 
+        funciones y programación orientada a objetos (POO), mediante una interfaz construida íntegramente con 
+        Streamlit, una platafoma que permite correr aplicaciones web enlazadas aun repositorio en GitHub.
         
         **Tecnologías Utilizadas**
         * Python 3
