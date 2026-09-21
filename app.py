@@ -52,9 +52,9 @@ if opcion == "Home":
         """)
   
     with col2:
-        st.image("logo_python_DMC.jfif", use_container_width=True)
+        st.image("logo_python_dmc.jfif", use_container_width=True)
         st.write("") 
-        st.image("logo_DMC.jfif", use_container_width=True)
+        st.image("logo_dmc.jfif", use_container_width=True)
 
 # --- SECCIÓN: EJERCICIO 1 ---
 elif opcion == "Ejercicio 1":
