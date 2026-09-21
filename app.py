@@ -38,6 +38,7 @@ if opcion == "Home":
         * **Año:** 2026
         
         **Descripción del Proyecto**
+        
         Esta aplicación interactiva corresponde al proyecto final del módulo 1 del curso, en donde se demuestra 
         la integración de conceptos fundamentales de Python, incluyendo estructuras de datos, control de flujo, 
         funciones y programación orientada a objetos (POO), mediante una interfaz construida íntegramente con 
