@@ -94,21 +94,19 @@ elif opcion == "Ejercicio 1":
 # --- SECCIÓN: EJERCICIO 2 ---
 elif opcion == "Ejercicio 2":
     st.title("Ejercicio 2: Registro con NumPy y DataFrame")
-    st.markdown("Gestión de suministros de alta rotación para el taller mediante arrays.")
+    st.markdown("Gestión de suministros de alta rotación para el taller de mantenimiento mediante arrays.")
     
     col1, col2 = st.columns(2)
     with col1:
         producto = st.text_input("Nombre del Suministro")
-        # Cambiado: Ahora es un selectbox para Categoría
         categoria = st.selectbox("Categoría", ["Suministro", "EPP"])
     with col2:
         precio = st.number_input("Precio Unitario", min_value=0.0, step=0.5)
         cantidad = st.number_input("Cantidad Solicitada", min_value=1, step=1)
     
     if st.button("Agregar a la Lista de Pedido"):
-        if producto:  # Ya no verificamos el código, el selectbox siempre tiene un valor por defecto
+        if producto:  
             total = precio * cantidad
-            # Uso de NumPy array según rúbrica
             nuevo_registro = np.array([categoria, producto, precio, cantidad, total])
             st.session_state.inventario.append(nuevo_registro)
             st.success("Registro añadido exitosamente.")
@@ -116,7 +114,6 @@ elif opcion == "Ejercicio 2":
             st.warning("Por favor ingrese el nombre del producto.")
             
     if st.session_state.inventario:
-        # Cambiado: La primera columna ahora se llama 'Categoría' en vez de 'Código'
         df_inv = pd.DataFrame(st.session_state.inventario, 
                               columns=["Categoría", "Suministro", "Precio Unitario", "Cantidad", "Total"])
         st.write("### Consolidado de Pedidos")
