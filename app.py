@@ -122,12 +122,16 @@ elif opcion == "Ejercicio 2":
 # --- SECCIÓN: EJERCICIO 3 ---
 elif opcion == "Ejercicio 3":
     st.title("Ejercicio 3: Uso de Funciones (Librería Externa)")
-    st.markdown("Cálculo de indicadores de mantenimiento (MTBF, MTTR, Disponibilidad).")
+    st.markdown("Cálculo dinámico de indicadores operativos y de mantenimiento.")
     
-    # Selector de función según rúbrica
-    funcion_sel = st.selectbox("Seleccione la función a ejecutar:", ["Calcular Indicadores de Mantenimiento"])
+    funcion_sel = st.selectbox("Seleccione la función a ejecutar:", [
+        "1. Indicadores de Mantenimiento (MTBF/MTTR)", 
+        "2. Efectividad General del Equipo (OEE)"
+    ])
     
-    if funcion_sel == "Calcular Indicadores de Mantenimiento":
+    # ---- OPCIÓN 1: MANTENIMIENTO ----
+    if funcion_sel == "1. Indicadores de Mantenimiento (MTBF/MTTR)":
+        st.subheader("Cálculo de Confiabilidad y Mantenibilidad")
         col1, col2, col3 = st.columns(3)
         with col1:
             tiempo_op = st.number_input("Tiempo de Operación (h)", min_value=1.0, value=100.0)
@@ -136,30 +140,53 @@ elif opcion == "Ejercicio 3":
         with col3:
             tiempo_rep = st.number_input("Tiempo Reparación Total (h)", min_value=0.0, value=10.0)
             
-        if st.button("Ejecutar Función"):
+        if st.button("Ejecutar Función de Mantenimiento"):
             try:
-                # Llama a la función de la librería externa
-                resultado = fn.calcular_indicadores_mantenimiento(tiempo_op, num_fallas, tiempo_rep)
-                
+                res = fn.calcular_indicadores_mantenimiento(tiempo_op, num_fallas, tiempo_rep)
                 st.success("Cálculo realizado con éxito")
-                c1, c2, c3 = st.columns(3)
-                c1.metric("MTBF (Horas)", resultado["mtbf_h"])
-                c2.metric("MTTR (Horas)", resultado["mttr_h"])
-                c3.metric("Disponibilidad", f"{resultado['disponibilidad_pct']}%")
                 
-                # Guardar histórico
+                c1, c2, c3 = st.columns(3)
+                c1.metric("MTBF", f"{res['mtbf_h']} h")
+                c2.metric("MTTR", f"{res['mttr_h']} h")
+                c3.metric("Disponibilidad", f"{res['disponibilidad_pct']}%")
+                
                 st.session_state.historial_ej3.append({
-                    "T. Operación (h)": tiempo_op,
-                    "Fallas": num_fallas,
-                    "T. Reparación (h)": tiempo_rep,
-                    "MTBF (h)": resultado["mtbf_h"],
-                    "MTTR (h)": resultado["mttr_h"],
-                    "Disponibilidad (%)": resultado["disponibilidad_pct"]
+                    "Función": "Mantenimiento",
+                    "Parámetros": f"Op: {tiempo_op}h | Fallas: {num_fallas} | Rep: {tiempo_rep}h",
+                    "Resultado": f"MTBF: {res['mtbf_h']} | Disp: {res['disponibilidad_pct']}%"
                 })
             except ValueError as e:
-                st.error(f"Error en los datos ingresados: {e}")
+                st.error(f"Error en datos: {e}")
+
+    # ---- OPCIÓN 2: OEE ----
+    elif funcion_sel == "2. Efectividad General del Equipo (OEE)":
+        st.subheader("Cálculo del OEE")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            disp = st.number_input("Disponibilidad (%)", min_value=0.0, max_value=100.0, value=90.0)
+        with col2:
+            rend = st.number_input("Rendimiento (%)", min_value=0.0, max_value=100.0, value=95.0)
+        with col3:
+            calidad = st.number_input("Calidad (%)", min_value=0.0, max_value=100.0, value=99.0)
             
+        if st.button("Ejecutar Función OEE"):
+            try:
+                res = fn.calcular_oee(disp, rend, calidad)
+                st.success("Cálculo realizado con éxito")
+                
+                st.metric("OEE Global (%)", f"{res['oee_pct']}%")
+                
+                st.session_state.historial_ej3.append({
+                    "Función": "OEE",
+                    "Parámetros": f"Disp: {disp}% | Rend: {rend}% | Cal: {calidad}%",
+                    "Resultado": f"OEE: {res['oee_pct']}%"
+                })
+            except ValueError as e:
+                st.error(f"Error en datos: {e}")
+            
+    # ---- MOSTRAR HISTORIAL UNIFICADO ----
     if st.session_state.historial_ej3:
+        st.write("---")
         st.write("#### Histórico de Evaluaciones")
         st.dataframe(pd.DataFrame(st.session_state.historial_ej3), use_container_width=True)
 
