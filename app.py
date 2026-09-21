@@ -34,7 +34,7 @@ if opcion == "Home":
         st.markdown("""
         **Información General**
         * **Estudiante:** Angie Tatiana Recuenco Tapia
-        * **Perfil:** Bachiller en Ingeniería Mecatrónica - Becaria en Ferreyros S.A.
+        * **Perfil:** Bachiller en Ingeniería Mecatrónica - Becaria en el área de Servicios de Mantenimiento a la línea amarilla de CAT en Ferreyros S.A.
         * **Año:** 2026
         
         **Descripción del Proyecto**
@@ -62,7 +62,7 @@ elif opcion == "Ejercicio 1":
     st.markdown("Módulo para registrar movimientos financieros operativos diarios.")
     
     with st.form("form_caja"):
-        concepto = st.text_input("Concepto del movimiento (Ej: Compra repuestos, Servicio taller)")
+        concepto = st.text_input("Concepto del movimiento (Ej: Compra repuestos, Servicio taller, Servicio Campo, Servicios Tercero)")
         tipo = st.selectbox("Tipo de movimiento", ["Ingreso", "Gasto"])
         valor = st.number_input("Valor", min_value=0.0, step=10.0)
         btn_caja = st.form_submit_button("Agregar Movimiento")
@@ -193,7 +193,7 @@ elif opcion == "Ejercicio 3":
 # --- SECCIÓN: EJERCICIO 4 ---
 elif opcion == "Ejercicio 4":
     st.title("Ejercicio 4: Uso de Clases (CRUD)")
-    st.markdown("Gestión de Equipos de Mantenimiento utilizando Programación Orientada a Objetos.")
+    st.markdown("Gestión de Equipos utilizando Programación Orientada a Objetos.")
     
     tab1, tab2, tab3, tab4 = st.tabs(["Create (C)", "Read (R)", "Update (U)", "Delete (D)"])
     
