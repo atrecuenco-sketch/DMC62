@@ -121,9 +121,9 @@ elif opcion == "Ejercicio 2":
             
     if st.session_state.inventario:
         df_inv = pd.DataFrame(st.session_state.inventario, 
-                              columns=["Categoría", "Suministro", "Precio Unitario ($)", "Cantidad", "Total"])
+                              columns=["Categoría", "Suministro", "Precio Unitario ($)", "Cantidad", "Total ($)"])
         df_inv["Precio Unitario ($)"] = df_inv["Precio Unitario ($)"].astype(float).map(lambda x: f"{x:.2f}")
-        df_inv["Total"] = df_inv["Total"].astype(float).map(lambda x: f"{x:.2f}")
+        df_inv["Total ($)"] = df_inv["Total ($)"].astype(float).map(lambda x: f"{x:.2f}")
         
         st.write("### Consolidado de Pedidos")
         st.dataframe(df_inv, use_container_width=True)
