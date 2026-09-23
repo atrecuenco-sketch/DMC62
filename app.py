@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Importando los archivos proporcionados para el proyecto
+# Importando los archivos para el proyecto
 import libreria_funciones_proyecto1 as fn
 import libreria_clases_proyecto1 as cl
 
-# Configuración básica de la página
+# Configuración de la página
 st.set_page_config(page_title="Proyecto Python Fundamentals", layout="wide")
 
 # Inicialización de variables de sesión (st.session_state)
@@ -64,19 +64,19 @@ elif opcion == "Ejercicio 1":
     with st.form("form_caja"):
         concepto = st.text_input("Concepto del movimiento (Ej: Compra repuestos, Servicio taller, Servicio Campo, Servicios Tercero)")
         tipo = st.selectbox("Tipo de movimiento", ["Ingreso", "Gasto"])
-        valor = st.number_input("Valor", min_value=0.0, step=10.0)
+        valor = st.number_input("Valor ($)", min_value=0.0, step=10.0, format="%.2f")
         btn_caja = st.form_submit_button("Agregar Movimiento")
         
         if btn_caja and concepto != "":
-            st.session_state.caja.append({"Concepto": concepto, "Tipo": tipo, "Valor": valor})
+            st.session_state.caja.append({"Concepto": concepto, "Tipo": tipo, "Valor ($)": round(float(valor), 2)})
             st.success(f"Movimiento '{concepto}' agregado correctamente.")
 
     if st.session_state.caja:
         df_caja = pd.DataFrame(st.session_state.caja)
         st.dataframe(df_caja, use_container_width=True)
         
-        ingresos = df_caja[df_caja['Tipo'] == 'Ingreso']['Valor'].sum()
-        gastos = df_caja[df_caja['Tipo'] == 'Gasto']['Valor'].sum()
+        ingresos = df_caja[df_caja['Tipo'] == 'Ingreso']['Valor ($)'].sum()
+        gastos = df_caja[df_caja['Tipo'] == 'Gasto']['Valor ($)'].sum()
         saldo = ingresos - gastos
         
         col1, col2, col3 = st.columns(3)
@@ -99,15 +99,21 @@ elif opcion == "Ejercicio 2":
     col1, col2 = st.columns(2)
     with col1:
         producto = st.text_input("Nombre del Suministro")
-        categoria = st.selectbox("Categoría", ["Suministro", "EPP"])
+        categoria = st.selectbox("Categoría", ["Insumo", "EPP"])
     with col2:
-        precio = st.number_input("Precio Unitario", min_value=0.0, step=0.5)
+        precio = st.number_input("Precio Unitario ($)", min_value=0.0, step=0.5, format="%.2f")
         cantidad = st.number_input("Cantidad Solicitada", min_value=1, step=1)
     
     if st.button("Agregar a la Lista de Pedido"):
         if producto:  
-            total = precio * cantidad
-            nuevo_registro = np.array([categoria, producto, precio, cantidad, total])
+            total = round(float(precio) * int(cantidad), 2)
+            nuevo_registro = np.array([
+                categoria, 
+                producto, 
+                f"{float(precio):.2f}", 
+                str(cantidad), 
+                f"{total:.2f}"
+            ])
             st.session_state.inventario.append(nuevo_registro)
             st.success("Registro añadido exitosamente.")
         else:
@@ -115,7 +121,10 @@ elif opcion == "Ejercicio 2":
             
     if st.session_state.inventario:
         df_inv = pd.DataFrame(st.session_state.inventario, 
-                              columns=["Categoría", "Suministro", "Precio Unitario", "Cantidad", "Total"])
+                              columns=["Categoría", "Suministro", "Precio Unitario ($)", "Cantidad", "Total"])
+        df_inv["Precio Unitario ($)"] = df_inv["Precio Unitario ($)"].astype(float).map(lambda x: f"{x:.2f}")
+        df_inv["Total"] = df_inv["Total"].astype(float).map(lambda x: f"{x:.2f}")
+        
         st.write("### Consolidado de Pedidos")
         st.dataframe(df_inv, use_container_width=True)
 
