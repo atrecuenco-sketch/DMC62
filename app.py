@@ -27,7 +27,7 @@ opcion = st.sidebar.selectbox("Seleccione una sección:",
 # --- SECCIÓN: HOME ---
 if opcion == "Home":
     st.title("Proyecto 1: Aplicación en Streamlit")
-    st.subheader("Módulo 1 - Python Fundamentals")
+    st.subheader("Módulo 1 - Python Fundamentals_______")
     
     col1, col2 = st.columns([2, 1])
     with col1:
